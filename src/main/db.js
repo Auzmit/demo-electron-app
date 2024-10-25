@@ -9,7 +9,7 @@ export const createTable = (name, entries) => {
   const setPrimaryKey = `id INTEGER PRIMARY KEY AUTOINCREMENT`
   const query = fields.map((field) => `${field} TEXT`).join(', ');
   const questionMarks = fields.map(() => '?').join(', ');
-  console.log(11, query);
+
   db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS ${name} (${setPrimaryKey}, ${query})`, [], (err) => {
       if (err) console.log(err);
@@ -19,18 +19,6 @@ export const createTable = (name, entries) => {
       db.run(`INSERT INTO ${name} VALUES (NULL, ${questionMarks})`, valuesRow, (e) => { if (e) console.log(e) });
     });
   });
-
-  db.close();
 }
-
-// db.serialize(() => {
-//   db.run("CREATE TABLE IF NOT EXISTS partners (info TEXT, name TEXT)", [], (err) => {
-//     if (err) console.log(err);
-//   });
-
-//   db.run("INSERT INTO partners VALUES (?, ?)", ['text', 'name1'], (e) => { if (e) console.log(e) });
-// });
-
-// db.close();
 
 export default db;
